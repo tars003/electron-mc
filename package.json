@@ -1,10 +1,27 @@
 {
   "name": "electron-serialport",
+  "productName": "DRESPL",
   "version": "1.0.2",
-  "description": "A minimal Electron application with node serialport",
+  "description": "RMPU Microcontroller Companion Software",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build-installer": "electron-builder"
+  },
+  "build": {
+    "appId": "drespl",
+    "win": {
+      "target": ["nsis"],
+      "icon": "./icon.png",
+      "requestedExecutionLevel": "requireAdministrator"
+    },
+    "nsis": {
+      "installerIcon": "./icon.png",
+      "uninstallerIcon": "./icon.png",
+      "uninstallDisplayName": "DRESPL",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   },
   "repository": {
     "type": "git",
@@ -20,10 +37,13 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^17.0.0"
+    "electron": "^17.0.0",
+    "electron-windows-installer": "^1.7.8",
+    "electron-winstaller": "^5.0.0"
   },
   "dependencies": {
-    "serialport": "^10.3.0",
+    "gulp": "^4.0.2",
+    "serialport": "^10.4.0",
     "tableify": "^1.1.1"
   }
 }

@@ -28,6 +28,7 @@ function createWindow() {
 
     // Open the DevTools.
     // mainWindow.webContents.openDevTools()
+    mainWindow.setMenuBarVisibility(false);
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function() {
