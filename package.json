@@ -12,12 +12,12 @@
     "appId": "drespl",
     "win": {
       "target": ["nsis"],
-      "icon": "./icon.png",
+      "icon": "./icon.ico",
       "requestedExecutionLevel": "requireAdministrator"
     },
     "nsis": {
-      "installerIcon": "./icon.png",
-      "uninstallerIcon": "./icon.png",
+      "installerIcon": "./icon.ico",
+      "uninstallerIcon": "./icon.ico",
       "uninstallDisplayName": "DRESPL",
       "oneClick": false,
       "allowToChangeInstallationDirectory": true

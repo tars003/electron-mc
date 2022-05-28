@@ -26,7 +26,7 @@ let alertToast;
 let alertToastText;
 let loopTimer;
 
-async function listSerialPorts() {
+const listSerialPorts = async ()  => {
   await SerialPort.list().then((ports, err) => {
     if (err) {
       console.log('Error inside listSerialPorts', err);
