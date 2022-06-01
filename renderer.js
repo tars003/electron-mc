@@ -25,6 +25,16 @@ let connBtn, disconnBtn;
 let alertToast;
 let alertToastText;
 let loopTimer;
+let scanTimer;
+let autoBtn;
+let manualBtn;
+let dataModeBtn;
+let toggleBtns;
+
+let isModeAuto = true;
+
+let blr1Toggle, conf11Toggle, conf12Toggle, comp11Toggle, comp12Toggle, htr1Toggle;
+let blr2Toggle, conf21Toggle, conf22Toggle, comp21Toggle, comp22Toggle, htr2Toggle;
 
 const listSerialPorts = async ()  => {
   await SerialPort.list().then((ports, err) => {
@@ -32,7 +42,7 @@ const listSerialPorts = async ()  => {
       console.log('Error inside listSerialPorts', err);
       return
     }
-
+    // ports = [];
     // POPULATE PORT SELECT OPTIONS
     populatePortSelect(ports);
     // ADD EVENT LISTNER ON SUBMIT AND CONNECT TO SELECTED PORT
@@ -40,10 +50,24 @@ const listSerialPorts = async ()  => {
     // LOAD ALERT TOAST HTML
     // loadToast();
 
+    // LOAD AND ADD NAV BUTTON LISTENERS
+    loadNavButtons();
+
     // LOAD DISCONNECT AND CONNECT BUTTON
     loadConnDisconn();
+
   })
 }
+
+const scanLoop =  async () => {
+  console.log('Inside scanLoop');
+  if(!isConnected) {
+    listSerialPorts();
+  }
+  // await scanLoop();
+}
+scanLoop();
+// setTimeout(1000, scanLoop);
 
 const updateElementsLoop = async () => {
   // LOAD DISCONNECT AND CONNECT BUTTON
@@ -52,6 +76,7 @@ const updateElementsLoop = async () => {
 
 const populatePortSelect = (ports) => {
   portSelect = document.getElementById("port-select");
+  console.log(ports);
   ports.map(port => {
     if (portsCurr.includes(port.path)) {
 
@@ -63,11 +88,196 @@ const populatePortSelect = (ports) => {
   });
 }
 
+const loadNavButtons = () => {
+  autoBtn = document.getElementById("auto-btn");
+  manualBtn = document.getElementById("manual-btn");
+  dataModeBtn = document.getElementById("data-btn");
+
+  toggleBtns = document.getElementsByClassName("switch");
+  toggleBtns = [...toggleBtns];
+
+  autoBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    autoModeON();
+  });
+  manualBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    manualModeON();
+  });
+  dataModeBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    dataModeON();
+  });
+
+  autoModeON();
+}
+
+const loadToggleListeners = () => {
+  blr1Toggle = document.getElementById('blr1-toggle');
+  htr1Toggle = document.getElementById('htr1-toggle');
+  conf11Toggle = document.getElementById('conf11-toggle');
+  conf12Toggle = document.getElementById('conf12-toggle');
+  comp11Toggle = document.getElementById('comp11-toggle');
+  comp12Toggle = document.getElementById('comp12-toggle');
+
+  blr2Toggle = document.getElementById('blr2-toggle');
+  htr2Toggle = document.getElementById('htr2-toggle');
+  conf21Toggle = document.getElementById('conf21-toggle');
+  conf22Toggle = document.getElementById('conf22-toggle');
+  comp21Toggle = document.getElementById('comp21-toggle');
+  comp22Toggle = document.getElementById('comp22-toggle');
+  
+  // UNIT 1
+  blr1Toggle.addEventListener('change', (e) => {
+    // console.log('inside change', e.target.checked);
+    if(isConnected)  {
+      if(e.target.checked) myPort.write("<MNOP,5,1>");
+      else myPort.write("<MNOP,5,0>");
+    }
+  });
+  htr1Toggle.addEventListener('change', (e) => {
+    // console.log('inside change', e.target.checked);
+    if(isConnected)  {
+      if(e.target.checked) myPort.write("<MNOP,6,1>");
+      else myPort.write("<MNOP,6,0>");
+    }
+  });
+  conf11Toggle.addEventListener('change', (e) => {
+    if(isConnected)  {
+      if(e.target.checked) myPort.write("<MNOP,1,1>");
+      else myPort.write("<MNOP,1,0>");
+    }
+  });
+  conf12Toggle.addEventListener('change', (e) => {
+    if(isConnected)  {
+      if(e.target.checked) myPort.write("<MNOP,2,1>");
+      else myPort.write("<MNOP,2,0>");
+    }
+  });
+  comp11Toggle.addEventListener('change', (e) => {
+    if(isConnected)  {
+      if(e.target.checked) myPort.write("<MNOP,3,1>");
+      else myPort.write("<MNOP,3,0>");
+    }
+  });
+  comp12Toggle.addEventListener('change', (e) => {
+    if(isConnected)  {
+      if(e.target.checked) myPort.write("<MNOP,4,1>");
+      else myPort.write("<MNOP,4,0>");
+    }
+  });
+
+  // UNIT 2
+  blr2Toggle.addEventListener('change', (e) => {
+    if(isConnected)  {
+      if(e.target.checked) myPort.write("<MNOP,11,1>");
+      else myPort.write("<MNOP,11,0>");
+    }
+  });
+  htr2Toggle.addEventListener('change', (e) => {
+    if(isConnected)  {
+      if(e.target.checked) myPort.write("<MNOP,12,1>");
+      else myPort.write("<MNOP,12,0>");
+    }
+  });
+  conf21Toggle.addEventListener('change', (e) => {
+    if(isConnected)  {
+      if(e.target.checked) myPort.write("<MNOP,7,1>");
+      else myPort.write("<MNOP,7,0>");
+    }
+  });
+  conf22Toggle.addEventListener('change', (e) => {
+    if(isConnected)  {
+      if(e.target.checked) myPort.write("<MNOP,8,1>");
+      else myPort.write("<MNOP,8,0>");
+    }
+  });
+  comp21Toggle.addEventListener('change', (e) => {
+    if(isConnected)  {
+      if(e.target.checked) myPort.write("<MNOP,9,1>");
+      else myPort.write("<MNOP,9,0>");
+    }
+  });
+  comp22Toggle.addEventListener('change', (e) => {
+    if(isConnected)  {
+      // console.log("<MNOP,10,1>");
+      if(e.target.checked) myPort.write("<MNOP,10,1>");
+      else myPort.write("<MNOP,10,0>");
+    }
+  });
+  
+}
+
+const autoModeON = () => {
+  isModeAuto = true;
+  autoBtn.style.backgroundColor = "#de4d31";
+  manualBtn.style.backgroundColor = "#c9c4c3";
+  dataModeBtn.style.backgroundColor = "#c9c4c3";
+  autoBtn.style.color = "white";
+  manualBtn.style.color = "black";
+  dataModeBtn.style.color = "black";
+
+  // mainBody.style.fontSize = "15px";
+
+  let tables = document.getElementsByTagName('table');
+  tables = [...tables]
+  tables.map(table => {
+    table.style.backgroundColor = '#d0f5ec';
+  });
+
+  toggleBtns.map((btn) => {
+    console.log('toggle hidden', btn);
+    btn.style.display = "none";
+  })
+
+  if(isConnected)  myPort.write("AUTO\n");
+
+  if(isConnected) {
+    blr1Toggle.checked = false;
+    htr1Toggle.checked = false;
+    conf11Toggle.checked = false;
+    conf12Toggle.checked = false;
+    comp11Toggle.checked = false;
+    comp12Toggle.checked = false;
+
+    blr2Toggle.checked = false;
+    htr2Toggle.checked = false;
+    conf21Toggle.checked = false;
+    conf22Toggle.checked = false;
+    comp21Toggle.checked = false;
+    comp22Toggle.checked = false;
+  }
+}
+
+const manualModeON = () => {
+  isModeAuto = false;
+  manualBtn.style.backgroundColor = "#de4d31";
+  autoBtn.style.backgroundColor = "#c9c4c3";
+  dataModeBtn.style.backgroundColor = "#c9c4c3";
+  autoBtn.style.color = "black";
+  manualBtn.style.color = "white";
+  dataModeBtn.style.color = "black";
+
+  // mainBody.style.fontSize = "13px";
+
+  let tables = document.getElementsByTagName('table');
+  tables = [...tables]
+  tables.map(table => {
+    table.style.backgroundColor = "#fcd2ca";
+  });
+
+  toggleBtns.map((btn) => {
+    btn.style.display = "block";
+  })
+
+  if(isConnected)  myPort.write("MANU\n");
+}
+
 const selectConnectPort = () => {
   portForm = document.getElementById("port-form");
   portForm.addEventListener('submit', e => {
     e.preventDefault();
-    console.log('inside form submit', portSelect.value);
+    // console.log('inside form submit', portSelect.value);
     if (portSelect.value == 'none') {
       alert('Please select a PORT')
     } else {
@@ -113,6 +323,7 @@ const connectPort = (portName) => {
   console.log('Inside connectPort -> ', portName);
   myPort = new SerialPort({
     path: `\\\\.\\${portName}`,
+    lock: false,
     baudRate: 115200
   });
 
@@ -130,39 +341,32 @@ const connectPort = (portName) => {
   // LOAD PRESSURE TABLE
   getPressureElements();
 
-  myPort.on('open', showPortOpen);
+
   parser.on('data', readSerialData);
+  myPort.on('open', showPortOpen);
   myPort.on('close', showPortClose);
   myPort.on('error', showError);
+  
 
   isConnected = true;
 
+  portSelect.disabled = true;
+
   loopTimer = setTimeout(updateElementsLoop, 500);
+
+  loadToggleListeners();
 }
 
 const disconnectPort = () => {
   myPort.close();
   updateElementsLoop();
   clearTimeout(loopTimer);
+  portSelect.disabled = false;
+  autoModeON();
   // resetOutputValues();
 }
 
-function showPortOpen() {
-  console.log('port open. Data rate: ' + myPort.baudRate);
-}
 
-const readSerialData = (data) => {
-  parsedStr = data;
-  if(data.substring(0,1)  == '<') {
-    // CHANGE OUTPUTS AND SOON AS NEW DATA RECEIVED
-    changeOutput(data);
-    changeInput(data);
-    changeTemp(data);
-    changePressure(data);
-  }
-  
-  console.log(data);
-}
 
 const changeOutput = (data) => {
   // UNIT 1
@@ -511,6 +715,27 @@ const resetOutputValues = () => {
   location.reload();
 }
 
+function showPortOpen() {
+  console.log('port open. Data rate: ' + myPort.baudRate);
+
+  // myPort.on("data", function(data) {
+  //   console.log("data received: " + data);
+  // });
+}
+
+const readSerialData = (data) => {
+  parsedStr = data;
+  if(data.substring(0,1)  == '<') {
+    // CHANGE OUTPUTS AND SOON AS NEW DATA RECEIVED
+    changeOutput(data);
+    changeInput(data);
+    changeTemp(data);
+    changePressure(data);
+  }
+  
+  console.log(data);
+}
+
 function showPortClose() {
   console.log('port closed.');
 }
@@ -519,8 +744,6 @@ function showError(error) {
   console.log('Serial port error: ' + error);
 }
 
-// Set a timeout that will check for new serialPorts every 2 seconds.
-// This timeout reschedules itself.
-// setTimeout(listPorts, 2000);
 
-listSerialPorts()
+
+

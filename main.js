@@ -9,8 +9,6 @@ let mainWindow
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
         backgroundColor: "#ccc",
         webPreferences: {
             nodeIntegration: true, // to allow require
@@ -18,6 +16,7 @@ function createWindow() {
             preload: path.join(__dirname, 'preload.js')
         }
     })
+    mainWindow.maximize();
 
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({
