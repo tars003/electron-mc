@@ -145,3 +145,50 @@ input:checked+.slider:before {
     -ms-user-select: none;
     user-select: none;
 }
+
+.fixTableHead {
+    overflow-y: auto;
+    overflow-x: auto;
+    height: 685px;
+}
+
+.fixTableHead  thead    th {
+    position: sticky;
+    top: 0;
+
+}
+
+
+.fixTableHead .stickyCell1  {
+    position: sticky;
+    background: #ABDD93;
+    left: 0;
+    border: 2px solid #529432;
+}
+
+.fixTableHead .stickyCell2  {
+    position: sticky;
+    background: #ABDD93;
+    left: 111px;
+    border: 2px solid #529432;
+}
+
+
+.fixTableHead  table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.fixTableHead   th    {
+    padding: 8px 15px;
+    border: 2px solid #529432;
+}
+
+.fixTableHead   td   {
+    padding: 8px 15px;
+    border: 2px solid #529432;
+}
+
+.fixTableHead  th {
+    background: #ABDD93;
+}

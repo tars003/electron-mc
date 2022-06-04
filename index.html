@@ -50,16 +50,6 @@
                     <div id="data-btn" class="row nav-item">
                         <p class="not-selectable" style="font-weight: bold;">DATA</p>
                     </div>
-
-                    <!-- <div id="auto-btn" class="row navBtn">
-                        <span>AUTO</span>
-                    </div>
-                    <div id="manual-btn" class="row navBtn">
-                        <span>MANUAL</span>
-                    </div>
-                    <div id="data-btn" class="row navBtn">
-                        <span>DATA</span>
-                    </div> -->
                 </div>
             </div>
             <!-- NAV col div -->
@@ -83,6 +73,7 @@
                 </div>
                 <!-- Select port -->
 
+                <!-- BODY DIV -->
                 <div class="container" id="body-div" style="font-size: 15px;">
                     <div class="row">
                         <div class="col-6">
@@ -100,16 +91,36 @@
                                             <td style="color: black;">Controller Ok</td>
                                             <td id="contOK-led"
                                                 style="background-color: rgb(228, 58, 58); color: white;">OFF</td>
-                                            <td style="color: black;">Cont. Fault</td>
+                                            <td id="header-cell" style="color: black;">
+                                                Cont. Fault
+                                                <label class="switch">
+                                                    <input id="contFault-toggle" type="checkbox">
+                                                    <span class="slider"></span>
+                                                </label>
+                                            </td>
                                             <td id="contFault-led"
                                                 style="background-color: rgb(228, 58, 58); color: white;">OFF
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="color: black;">SPARE</td>
-                                            <td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>
-                                            <td style="color: black;">SPARE</td>
-                                            <td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>
+                                            <td id="header-cell" style="color: black;">
+                                                SPARE
+                                                <label class="switch">
+                                                    <input id="spare1-toggle" type="checkbox">
+                                                    <span class="slider"></span>
+                                                </label>
+                                            </td>
+                                            <td id="spare1-led"
+                                                style="background-color: rgb(228, 58, 58); color: white;">OFF</td>
+                                            <td id="header-cell" style="color: black;">
+                                                SPARE
+                                                <label class="switch">
+                                                    <input id="spare2-toggle" type="checkbox">
+                                                    <span class="slider"></span>
+                                                </label>
+                                            </td>
+                                            <td id="spare2-led"
+                                                style="background-color: rgb(228, 58, 58); color: white;">OFF</td>
                                         </tr>
                                         <tr>
                                             <td id="header-cell" style="color: black;">
@@ -132,18 +143,44 @@
                                                 OFF</td>
                                         </tr>
                                         <tr>
-                                            <td  style="color: black;">BLOWER 1/2</td>
-                                            <td id="blr1/2-led"
+                                            <td id="header-cell" style="color: black;">
+                                                BLOWER 1/2
+                                                <label class="switch">
+                                                    <input id="blr12-toggle" type="checkbox">
+                                                    <span class="slider"></span>
+                                                </label>
+                                            </td>
+                                            <td id="blr12-led"
                                                 style="background-color: rgb(228, 58, 58); color: white;">OFF</td>
-                                            <td style="color: black;">BLOWER 2/2</td>
-                                            <td id="blr2/2-led"
+                                            <td id="header-cell" style="color: black;">
+                                                BLOWER 2/2
+                                                <label class="switch">
+                                                    <input id="blr22-toggle" type="checkbox">
+                                                    <span class="slider"></span>
+                                                </label>
+                                            </td>
+                                            <td id="blr22-led"
                                                 style="background-color: rgb(228, 58, 58); color: white;">OFF</td>
                                         </tr>
                                         <tr>
-                                            <td style="color: black;">SPARE</td>
-                                            <td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>
-                                            <td style="color: black;">SPARE</td>
-                                            <td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>
+                                            <td id="header-cell" style="color: black;">
+                                                SPARE
+                                                <label class="switch">
+                                                    <input id="spare3-toggle" type="checkbox">
+                                                    <span class="slider"></span>
+                                                </label>
+                                            </td>
+                                            <td id="spare3-led"
+                                                style="background-color: rgb(228, 58, 58); color: white;">OFF</td>
+                                            <td id="header-cell" style="color: black;">
+                                                SPARE
+                                                <label class="switch">
+                                                    <input id="spare4-toggle" type="checkbox">
+                                                    <span class="slider"></span>
+                                                </label>
+                                            </td>
+                                            <td id="spare4-led"
+                                                style="background-color: rgb(228, 58, 58); color: white;">OFF</td>
                                         </tr>
                                         <tr>
                                             <td id="header-cell" style="color: black;">
@@ -428,6 +465,73 @@
                     </div>
                     <!-- pressure value table -->
                 </div>
+                <!-- BODY DIV -->
+
+                <!-- DATA BODY DIV -->
+                <div class="container" id="data-div" style="margin-top: 10px;margin-left: 12px;">
+                    <div class="fixTableHead" id="scroll-div">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="z-index: 99;" class="stickyCell1">DATE</th>
+                                    <th style="z-index: 99;" class="stickyCell2">TIME</th>
+                                    <th>BLR1/1</th>
+                                    <th>BLR1/2</th>
+                                    <th>BLR2/1</th>
+                                    <th>BLR2/2</th>
+                                    <th>CONF1/1</th>
+                                    <th>CONF1/2</th>
+                                    <th>CONF2/1</th>
+                                    <th>CONF2/2</th>
+                                    <th>COMP1/1</th>
+                                    <th>COMP1/2</th>
+                                    <th>COMP2/1</th>
+                                    <th>COMP2/2</th>
+                                    <th>HTR1</th>
+                                    <th>HTR2</th>
+                                    <th>RT1</th>
+                                    <th>RT2</th>
+                                    <th>AT1</th>
+                                    <th>AT2</th>
+                                    <th>ST1</th>
+                                    <th>ST2</th>
+                                    <th>RH</th>
+                                    <th>HP 1/1</th>
+                                    <th>HP 1/2</th>
+                                    <th>HP 2/1</th>
+                                    <th>HP 2/2</th>
+                                    <th>LP 1/1</th>
+                                    <th>LP 1/2</th>
+                                    <th>LP 2/1</th>
+                                    <th>LP 2/2</th>
+                                    <th>BLR1/1 TOP</th>
+                                    <th>BLR1/2 TOP</th>
+                                    <th>BLR2/1 TOP</th>
+                                    <th>BLR2/2 TOP</th>
+                                    <th>CONF1/1 TOP</th>
+                                    <th>CONF1/2 TOP</th>
+                                    <th>CONF2/1 TOP</th>
+                                    <th>CONF2/2 TOP</th>
+                                    <th>HP 1/1 FAULT</th>
+                                    <th>HP 1/2 FAULT</th>
+                                    <th>HP 2/1 FAULT</th>
+                                    <th>HP 2/2 FAULT</th>
+                                    <th>LP 1/1 OK</th>
+                                    <th>LP 1/2 OK</th>
+                                    <th>LP 2/1 OK</th>
+                                    <th>LP 2/2 OK</th>
+                                    <th>OHP 1</th>
+                                    <th>OHP 2</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="data-table-body">
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <!-- DATA BODY DIV -->
             </div>
         </div>
     </div>

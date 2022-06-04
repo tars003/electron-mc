@@ -13,6 +13,8 @@ let myPort;
 let parsedStr;
 let blr1Led, conf11Led, conf12Led, comp11Led, comp12Led, htr1Led;
 let blr2Led, conf21Led, conf22Led, comp21Led, comp22Led, htr2Led;
+let blr12Led, blr22Led;
+let spare1Led, spare2Led, spare3Led, spare4Led, contFaultLed;
 let blr1Ip, conf11Ip, conf12Ip, lp11Ip, lp12Ip, hp11Ip, hp12Ip, htr1Ip, airConIp, cnp1Ip;
 let blr2Ip, conf21Ip, conf22Ip, lp21Ip, lp22Ip, hp21Ip, hp22Ip, htr2Ip, v400Ip, cnp2Ip;
 let rt1Val, rt2Val, st1Val, st2Val, at1Val, at2Val, rhVal;
@@ -32,11 +34,17 @@ let dataModeBtn;
 let toggleBtns;
 
 let isModeAuto = true;
+let isDataMode = false;
 
 let blr1Toggle, conf11Toggle, conf12Toggle, comp11Toggle, comp12Toggle, htr1Toggle;
 let blr2Toggle, conf21Toggle, conf22Toggle, comp21Toggle, comp22Toggle, htr2Toggle;
+let spare1Toggle, spare2Toggle, spare3Toggle, spare4Toggle, contFaultToggle;
+let blr12Toggle, blr22Toggle;
 
-const listSerialPorts = async ()  => {
+let dataBody;
+let dataTableBody;
+
+const listSerialPorts = async () => {
   await SerialPort.list().then((ports, err) => {
     if (err) {
       console.log('Error inside listSerialPorts', err);
@@ -59,9 +67,9 @@ const listSerialPorts = async ()  => {
   })
 }
 
-const scanLoop =  async () => {
+const scanLoop = async () => {
   console.log('Inside scanLoop');
-  if(!isConnected) {
+  if (!isConnected) {
     listSerialPorts();
   }
   // await scanLoop();
@@ -126,90 +134,154 @@ const loadToggleListeners = () => {
   conf22Toggle = document.getElementById('conf22-toggle');
   comp21Toggle = document.getElementById('comp21-toggle');
   comp22Toggle = document.getElementById('comp22-toggle');
-  
+
+  spare1Toggle = document.getElementById('spare1-toggle');
+  spare2Toggle = document.getElementById('spare2-toggle');
+  spare3Toggle = document.getElementById('spare3-toggle');
+  spare4Toggle = document.getElementById('spare4-toggle');
+  contFaultToggle = document.getElementById('contFault-toggle');
+
+  blr12Toggle = document.getElementById('blr12-toggle');
+  blr22Toggle = document.getElementById('blr22-toggle');
+
   // UNIT 1
   blr1Toggle.addEventListener('change', (e) => {
     // console.log('inside change', e.target.checked);
-    if(isConnected)  {
-      if(e.target.checked) myPort.write("<MNOP,5,1>");
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,5,1>");
       else myPort.write("<MNOP,5,0>");
     }
   });
   htr1Toggle.addEventListener('change', (e) => {
     // console.log('inside change', e.target.checked);
-    if(isConnected)  {
-      if(e.target.checked) myPort.write("<MNOP,6,1>");
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,6,1>");
       else myPort.write("<MNOP,6,0>");
     }
   });
   conf11Toggle.addEventListener('change', (e) => {
-    if(isConnected)  {
-      if(e.target.checked) myPort.write("<MNOP,1,1>");
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,1,1>");
       else myPort.write("<MNOP,1,0>");
     }
   });
   conf12Toggle.addEventListener('change', (e) => {
-    if(isConnected)  {
-      if(e.target.checked) myPort.write("<MNOP,2,1>");
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,2,1>");
       else myPort.write("<MNOP,2,0>");
     }
   });
   comp11Toggle.addEventListener('change', (e) => {
-    if(isConnected)  {
-      if(e.target.checked) myPort.write("<MNOP,3,1>");
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,3,1>");
       else myPort.write("<MNOP,3,0>");
     }
   });
   comp12Toggle.addEventListener('change', (e) => {
-    if(isConnected)  {
-      if(e.target.checked) myPort.write("<MNOP,4,1>");
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,4,1>");
       else myPort.write("<MNOP,4,0>");
     }
   });
 
   // UNIT 2
   blr2Toggle.addEventListener('change', (e) => {
-    if(isConnected)  {
-      if(e.target.checked) myPort.write("<MNOP,11,1>");
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,11,1>");
       else myPort.write("<MNOP,11,0>");
     }
   });
   htr2Toggle.addEventListener('change', (e) => {
-    if(isConnected)  {
-      if(e.target.checked) myPort.write("<MNOP,12,1>");
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,12,1>");
       else myPort.write("<MNOP,12,0>");
     }
   });
   conf21Toggle.addEventListener('change', (e) => {
-    if(isConnected)  {
-      if(e.target.checked) myPort.write("<MNOP,7,1>");
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,7,1>");
       else myPort.write("<MNOP,7,0>");
     }
   });
   conf22Toggle.addEventListener('change', (e) => {
-    if(isConnected)  {
-      if(e.target.checked) myPort.write("<MNOP,8,1>");
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,8,1>");
       else myPort.write("<MNOP,8,0>");
     }
   });
   comp21Toggle.addEventListener('change', (e) => {
-    if(isConnected)  {
-      if(e.target.checked) myPort.write("<MNOP,9,1>");
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,9,1>");
       else myPort.write("<MNOP,9,0>");
     }
   });
   comp22Toggle.addEventListener('change', (e) => {
-    if(isConnected)  {
+    if (isConnected) {
       // console.log("<MNOP,10,1>");
-      if(e.target.checked) myPort.write("<MNOP,10,1>");
+      if (e.target.checked) myPort.write("<MNOP,10,1>");
       else myPort.write("<MNOP,10,0>");
     }
   });
-  
+  // SPARE TOGGLES
+  spare1Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      // console.log("<MNOP,10,1>");
+      if (e.target.checked) myPort.write("<MNOP,13,1>");
+      else myPort.write("<MNOP,13,0>");
+    }
+  });
+  spare2Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      // console.log("<MNOP,10,1>");
+      if (e.target.checked) myPort.write("<MNOP,14,1>");
+      else myPort.write("<MNOP,14,0>");
+    }
+  });
+  spare3Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      // console.log("<MNOP,10,1>");
+      if (e.target.checked) myPort.write("<MNOP,15,1>");
+      else myPort.write("<MNOP,15,0>");
+    }
+  });
+  spare4Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      // console.log("<MNOP,10,1>");
+      if (e.target.checked) myPort.write("<MNOP,16,1>");
+      else myPort.write("<MNOP,16,0>");
+    }
+  });
+  contFaultToggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      // console.log("<MNOP,10,1>");
+      if (e.target.checked) myPort.write("<MNOP,17,1>");
+      else myPort.write("<MNOP,17,0>");
+    }
+  });
+
+  blr12Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      // console.log("<MNOP,10,1>");
+      if (e.target.checked) myPort.write("<MNOP,18,1>");
+      else myPort.write("<MNOP,18,0>");
+    }
+  });
+  blr22Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      // console.log("<MNOP,10,1>");
+      if (e.target.checked) myPort.write("<MNOP,19,1>");
+      else myPort.write("<MNOP,19,0>");
+    }
+  });
 }
 
 const autoModeON = () => {
+
+  mainBody = document.getElementById('body-div');
+  dataBody = document.getElementById('data-div');
+
   isModeAuto = true;
+  isDataMode = false;
   autoBtn.style.backgroundColor = "#de4d31";
   manualBtn.style.backgroundColor = "#c9c4c3";
   dataModeBtn.style.backgroundColor = "#c9c4c3";
@@ -217,22 +289,27 @@ const autoModeON = () => {
   manualBtn.style.color = "black";
   dataModeBtn.style.color = "black";
 
-  // mainBody.style.fontSize = "15px";
 
+  // CHANGING TABLE COLOR TO RED FOR MANUAL & BLUE FOR AUTO
   let tables = document.getElementsByTagName('table');
   tables = [...tables]
   tables.map(table => {
     table.style.backgroundColor = '#d0f5ec';
   });
 
+  // HIDING SHOWING TOGGLE BUTTONS
   toggleBtns.map((btn) => {
     console.log('toggle hidden', btn);
     btn.style.display = "none";
-  })
+  });
 
-  if(isConnected)  myPort.write("AUTO\n");
+  mainBody.style.display = "block";
+  dataBody.style.display = "none";
 
-  if(isConnected) {
+  if (isConnected) myPort.write("AUTO\n");
+
+  // WHEN EXITING MANUAL MODE, TURNING ALL TOGGLE SWITCHES OFF
+  if (isConnected) {
     blr1Toggle.checked = false;
     htr1Toggle.checked = false;
     conf11Toggle.checked = false;
@@ -246,11 +323,25 @@ const autoModeON = () => {
     conf22Toggle.checked = false;
     comp21Toggle.checked = false;
     comp22Toggle.checked = false;
+
+    spare1Toggle.checked = false;
+    spare2Toggle.checked = false;
+    spare3Toggle.checked = false;
+    spare4Toggle.checked = false;
+    contFaultToggle.checked = false;
+
+    blr12Toggle.checked = false;
+    blr22Toggle.checked = false;
   }
 }
 
 const manualModeON = () => {
+
+  mainBody = document.getElementById('body-div');
+  dataBody = document.getElementById('data-div');
+
   isModeAuto = false;
+  isDataMode = false;
   manualBtn.style.backgroundColor = "#de4d31";
   autoBtn.style.backgroundColor = "#c9c4c3";
   dataModeBtn.style.backgroundColor = "#c9c4c3";
@@ -258,19 +349,44 @@ const manualModeON = () => {
   manualBtn.style.color = "white";
   dataModeBtn.style.color = "black";
 
-  // mainBody.style.fontSize = "13px";
 
+  // CHANGING TABLE COLOR TO RED FOR MANUAL & BLUE FOR AUTO
   let tables = document.getElementsByTagName('table');
   tables = [...tables]
   tables.map(table => {
     table.style.backgroundColor = "#fcd2ca";
   });
 
+  // HIDING SHOWING TOGGLE BUTTONS
   toggleBtns.map((btn) => {
     btn.style.display = "block";
-  })
+  });
 
-  if(isConnected)  myPort.write("MANU\n");
+  mainBody.style.display = "block";
+  dataBody.style.display = "none";
+
+  if (isConnected) myPort.write("MANU\n");
+}
+
+const dataModeON = () => {
+
+  mainBody = document.getElementById('body-div');
+  dataBody = document.getElementById('data-div');
+
+  isModeAuto = true;
+  isDataMode = true;
+  manualBtn.style.backgroundColor = "#c9c4c3";
+  autoBtn.style.backgroundColor = "#c9c4c3";
+  dataModeBtn.style.backgroundColor = "#de4d31";
+  autoBtn.style.color = "black";
+  manualBtn.style.color = "black";
+  dataModeBtn.style.color = "white";
+
+  mainBody.style.display = "none";
+  dataBody.style.display = "block";
+
+  if (isConnected) myPort.write("AUTO\n");
+
 }
 
 const selectConnectPort = () => {
@@ -307,15 +423,24 @@ const loadConnDisconn = () => {
   });
 
   mainBody = document.getElementById('body-div');
+  dataBody = document.getElementById('data-div');
 
   if (isConnected) {
     connBtn.style.display = "none";
     disconnBtn.style.display = "block";
-    mainBody.style.display = "block";
+    if (isDataMode) {
+      mainBody.style.display = "none";
+      dataBody.style.display = "block";
+    }
+    else {
+      mainBody.style.display = "block";
+      dataBody.style.display = "none";
+    }
   } else {
     connBtn.style.display = "block";
     disconnBtn.style.display = "none";
     mainBody.style.display = "none";
+    dataBody.style.display = "none";
   }
 }
 
@@ -332,6 +457,8 @@ const connectPort = (portName) => {
   // const parser = port.pipe(new DelimiterParser({ delimiter: '>' }))
   // parser = myPort.pipe(new ByteLengthParser({ length: 300 }))
 
+  loadToggleListeners();
+
   // GET OUTPUT ELEMENTS HTML, INTO MEMORY
   getOutputElements();
   // LOAD INPUT ELEMENTS HTML INTO MEMORY
@@ -346,7 +473,7 @@ const connectPort = (portName) => {
   myPort.on('open', showPortOpen);
   myPort.on('close', showPortClose);
   myPort.on('error', showError);
-  
+
 
   isConnected = true;
 
@@ -354,7 +481,7 @@ const connectPort = (portName) => {
 
   loopTimer = setTimeout(updateElementsLoop, 500);
 
-  loadToggleListeners();
+  // loadToggleListeners();
 }
 
 const disconnectPort = () => {
@@ -465,6 +592,60 @@ const changeOutput = (data) => {
     htr2Led.style = "background-color: rgb(228, 58, 58); color: white;";
     htr2Led.innerHTML = "OFF";
   }
+  // SPARES
+  if (spare1Toggle.checked && !isModeAuto) {
+    spare1Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    spare1Led.innerHTML = "ON";
+  } else {
+    spare1Led.style = "background-color: rgb(228, 58, 58); color: white;";
+    spare1Led.innerHTML = "OFF";
+  }
+  if (spare2Toggle.checked && !isModeAuto) {
+    spare2Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    spare2Led.innerHTML = "ON";
+  } else {
+    spare2Led.style = "background-color: rgb(228, 58, 58); color: white;";
+    spare2Led.innerHTML = "OFF";
+  }
+  if (spare3Toggle.checked && !isModeAuto) {
+    spare3Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    spare3Led.innerHTML = "ON";
+  } else {
+    spare3Led.style = "background-color: rgb(228, 58, 58); color: white;";
+    spare3Led.innerHTML = "OFF";
+  }
+  if (spare4Toggle.checked && !isModeAuto) {
+    spare4Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    spare4Led.innerHTML = "ON";
+  } else {
+    spare4Led.style = "background-color: rgb(228, 58, 58); color: white;";
+    spare4Led.innerHTML = "OFF";
+  }
+
+  if (contFaultToggle.checked && !isModeAuto) {
+    contFaultLed.style = "background-color: rgb(88, 206, 88); color: white;";
+    contFaultLed.innerHTML = "ON";
+  } else {
+    contFaultLed.style = "background-color: rgb(228, 58, 58); color: white;";
+    contFaultLed.innerHTML = "OFF";
+  }
+
+  if (blr12Toggle.checked && !isModeAuto) {
+    blr12Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    blr12Led.innerHTML = "ON";
+  } else {
+    blr12Led.style = "background-color: rgb(228, 58, 58); color: white;";
+    blr12Led.innerHTML = "OFF";
+  }
+
+  if (blr22Toggle.checked && !isModeAuto) {
+    blr22Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    blr22Led.innerHTML = "ON";
+  } else {
+    blr22Led.style = "background-color: rgb(228, 58, 58); color: white;";
+    blr22Led.innerHTML = "OFF";
+  }
+
 }
 
 const getOutputElements = () => {
@@ -481,6 +662,15 @@ const getOutputElements = () => {
   comp21Led = document.getElementById('comp21-led');
   comp22Led = document.getElementById('comp22-led');
   htr2Led = document.getElementById('htr2-led');
+
+  spare1Led = document.getElementById('spare1-led');
+  spare2Led = document.getElementById('spare2-led');
+  spare3Led = document.getElementById('spare3-led');
+  spare4Led = document.getElementById('spare4-led');
+  contFaultLed = document.getElementById('contFault-led');
+
+  blr12Led = document.getElementById('blr12-led');
+  blr22Led = document.getElementById('blr22-led');
 }
 
 const changeInput = (data) => {
@@ -725,14 +915,16 @@ function showPortOpen() {
 
 const readSerialData = (data) => {
   parsedStr = data;
-  if(data.substring(0,1)  == '<') {
+  if (data.substring(0, 1) == '<') {
     // CHANGE OUTPUTS AND SOON AS NEW DATA RECEIVED
     changeOutput(data);
     changeInput(data);
     changeTemp(data);
     changePressure(data);
+
+    addRow(data);
   }
-  
+
   console.log(data);
 }
 
@@ -742,6 +934,187 @@ function showPortClose() {
 
 function showError(error) {
   console.log('Serial port error: ' + error);
+}
+
+const addRow = (data) => {
+  dataTableBody = document.getElementById('data-table-body');
+  let scrollDiv = document.getElementById('scroll-div');
+  let resString = "";
+
+  if (1) {
+    //DATE
+    resString += `<td class="stickyCell1">${parsedStr.substring(14, 24)}</td>`
+
+    //TIME
+    resString += `<td class="stickyCell2">${parsedStr.substring(5, 13)}</td>`
+
+    // BLR1/1
+    if (parsedStr.substring(164, 165) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+
+    // BLR1/2
+    if (0) resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+
+    // BLR2/1
+    if (parsedStr.substring(166, 167) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+
+    // BLR2/2
+    if (0) resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+
+    // CONF1/1
+    if (parsedStr.substring(168, 169) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+
+    // CONF1/2
+    if (parsedStr.substring(170, 171) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+
+    // CONF2/1
+    if (parsedStr.substring(172, 173) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+
+    // CONF2/2
+    if (parsedStr.substring(174, 175) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+
+    // COMP1/1
+    if (parsedStr.substring(176, 177) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+
+    // COMP1/2
+    if (parsedStr.substring(178, 179) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+
+    // COMP2/1
+    if (parsedStr.substring(180, 181) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+
+    // COMP2/2
+    if (parsedStr.substring(182, 183) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+
+    // HTR1
+    if (parsedStr.substring(160, 161) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+
+    // HTR2
+    if (parsedStr.substring(162, 163) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+    
+  }
+  if(1) {
+    // RT1
+    resString += `<td style="background-color: #ABDD93;">${data.substring(25, 29)}</td>`;
+    // RT2
+    resString += `<td style="background-color: #ABDD93;">${data.substring(30, 34)}</td>`;
+    // AT1
+    resString += `<td style="background-color: #ABDD93;">${data.substring(35, 39)}</td>`;
+    // AT2
+    resString += `<td style="background-color: #ABDD93;">${data.substring(40, 44)}</td>`;
+    // ST1
+    resString += `<td style="background-color: #ABDD93;">${data.substring(45, 49)}</td>`;
+    // ST2
+    resString += `<td style="background-color: #ABDD93;">${data.substring(50, 54)}</td>`;
+    // RH
+    resString += `<td style="background-color: #ABDD93;">${data.substring(55, 59)}</td>`;
+  }
+  if(1) {
+    // HP11
+    resString += `<td style="background-color: #ABDD93;">${data.substring(55, 59)}</td>`;
+    // HP12
+    resString += `<td style="background-color: #ABDD93;">${data.substring(60, 64)}</td>`;
+    // HP21
+    resString += `<td style="background-color: #ABDD93;">${data.substring(65, 69)}</td>`;
+    // HP22
+    resString += `<td style="background-color: #ABDD93;">${data.substring(70, 74)}</td>`;
+    // LP11
+    resString += `<td style="background-color: #ABDD93;">${data.substring(75, 79)}</td>`;
+    // LP12
+    resString += `<td style="background-color: #ABDD93;">${data.substring(80, 84)}</td>`;
+    // LP21
+    resString += `<td style="background-color: #ABDD93;">${data.substring(85, 89)}</td>`;
+    // LP22
+    resString += `<td style="background-color: #ABDD93;">${data.substring(90, 94)}</td>`;
+  }
+  if(1) {
+    // BLR1/1
+    if (parsedStr.substring(128, 129) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // BLR1/2
+    if (0) resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // BLR2/1
+    if (parsedStr.substring(130, 131) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // BLR2/2
+    if (0) resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // COKF1/1
+    if (parsedStr.substring(116, 117) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // COKF1/2
+    if (parsedStr.substring(118, 119) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // COKF2/1
+    if (parsedStr.substring(120, 121) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // COKF2/2
+    if (parsedStr.substring(122, 123) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // HP1/1
+    if (parsedStr.substring(100, 101) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // HP1/2
+    if (parsedStr.substring(102, 103) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // HP2/1
+    if (parsedStr.substring(104, 105) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // HP2/2
+    if (parsedStr.substring(106, 107) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // LP1/1
+    if (parsedStr.substring(108, 109) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // LP1/2
+    if (parsedStr.substring(110, 111) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // LP2/1
+    if (parsedStr.substring(112, 113) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // LP2/2
+    if (parsedStr.substring(114, 115) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // HTR1
+    if (parsedStr.substring(124, 125) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+
+    // HTR2
+    if (parsedStr.substring(126, 127) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
+  }
+  dataTableBody.innerHTML += `<tr>${resString}</tr>`;
+
+  scrollDiv.scrollTop = scrollDiv.scrollHeight;
 }
 
 
