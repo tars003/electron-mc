@@ -43,6 +43,7 @@ let blr12Toggle, blr22Toggle;
 
 let dataBody;
 let dataTableBody;
+let navBtnDiv;
 
 const listSerialPorts = async () => {
   await SerialPort.list().then((ports, err) => {
@@ -299,7 +300,7 @@ const autoModeON = () => {
 
   // HIDING SHOWING TOGGLE BUTTONS
   toggleBtns.map((btn) => {
-    console.log('toggle hidden', btn);
+    // console.log('toggle hidden', btn);
     btn.style.display = "none";
   });
 
@@ -424,10 +425,12 @@ const loadConnDisconn = () => {
 
   mainBody = document.getElementById('body-div');
   dataBody = document.getElementById('data-div');
+  navBtnDiv = document.getElementById('nav-btn-div');
 
   if (isConnected) {
     connBtn.style.display = "none";
     disconnBtn.style.display = "block";
+    navBtnDiv.style.display = "block";
     if (isDataMode) {
       mainBody.style.display = "none";
       dataBody.style.display = "block";
@@ -437,10 +440,12 @@ const loadConnDisconn = () => {
       dataBody.style.display = "none";
     }
   } else {
+    console.log('inside hide disconnect')
     connBtn.style.display = "block";
     disconnBtn.style.display = "none";
     mainBody.style.display = "none";
     dataBody.style.display = "none";
+    navBtnDiv.style.display = "none";
   }
 }
 
@@ -490,6 +495,7 @@ const disconnectPort = () => {
   clearTimeout(loopTimer);
   portSelect.disabled = false;
   autoModeON();
+  mainBody.style.display = "none";
   // resetOutputValues();
 }
 
