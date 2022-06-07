@@ -12,6 +12,8 @@
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./main.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -67,6 +69,10 @@
                             <div class="col-3">
                                 <input id="port-submit" class="btn btn-primary" type="submit" value="Connect">
                                 <button id="port-disconnect" class="btn btn-primary">Disconnect</button>
+                            </div>
+                            <div class="col-3"> 
+                                <i class=" fa fa-solid fa-file-csv"></i>
+                                <button id="export-btn" class="btn btn-primary"> Export data</button>
                             </div>
                         </div>
                     </form>
@@ -470,7 +476,7 @@
                 <!-- DATA BODY DIV -->
                 <div class="container" id="data-div" style="margin-top: 10px;margin-left: 12px;">
                     <div class="fixTableHead" id="scroll-div">
-                        <table>
+                        <table id="data-log-table">
                             <thead>
                                 <tr>
                                     <th style="z-index: 99;" class="stickyCell1">DATE</th>

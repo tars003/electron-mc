@@ -1,9 +1,13 @@
 let { SerialPort } = require('serialport');
+const tableToCsv = require('node-table-to-csv');
+const fs = require('fs');
 const { ReadlineParser } = require('@serialport/parser-readline');
 const { ByteLengthParser } = require('@serialport/parser-byte-length');
 const { ReadyParser } = require('@serialport/parser-ready');
 const { DelimiterParser } = require('@serialport/parser-delimiter')
 const { read } = require('original-fs');
+
+const { ipcRenderer } = require('electron');
 
 let portsCurr = [];
 let isConnected = false;
@@ -44,6 +48,8 @@ let blr12Toggle, blr22Toggle;
 let dataBody;
 let dataTableBody;
 let navBtnDiv;
+let exportBtn;
+let dataLogTable;
 
 const listSerialPorts = async () => {
   await SerialPort.list().then((ports, err) => {
@@ -306,6 +312,7 @@ const autoModeON = () => {
 
   mainBody.style.display = "block";
   dataBody.style.display = "none";
+  exportBtn.style.display = "none";
 
   if (isConnected) myPort.write("AUTO\n");
 
@@ -365,6 +372,7 @@ const manualModeON = () => {
 
   mainBody.style.display = "block";
   dataBody.style.display = "none";
+  exportBtn.style.display = "none";
 
   if (isConnected) myPort.write("MANU\n");
 }
@@ -373,6 +381,8 @@ const dataModeON = () => {
 
   mainBody = document.getElementById('body-div');
   dataBody = document.getElementById('data-div');
+  
+  exportBtn = document.getElementById('export-btn');
 
   isModeAuto = true;
   isDataMode = true;
@@ -385,6 +395,7 @@ const dataModeON = () => {
 
   mainBody.style.display = "none";
   dataBody.style.display = "block";
+  exportBtn.style.display = "block";
 
   if (isConnected) myPort.write("AUTO\n");
 
@@ -392,6 +403,9 @@ const dataModeON = () => {
 
 const selectConnectPort = () => {
   portForm = document.getElementById("port-form");
+  
+  exportBtn = document.getElementById('export-btn');
+
   portForm.addEventListener('submit', e => {
     e.preventDefault();
     // console.log('inside form submit', portSelect.value);
@@ -400,6 +414,28 @@ const selectConnectPort = () => {
     } else {
       connectPort(portSelect.value);
     }
+  });
+
+  // HANDLES ACTUALLY EXPORTING THE DATA
+  exportBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    dataLogTable = document.getElementById('scroll-div');
+    let csv = tableToCsv(dataLogTable.innerHTML);
+
+    ipcRenderer.send('file-request');
+
+    ipcRenderer.on('file-response', (event, data) => {
+      // console.log('obtained file from main process: ' + data );
+      // console.log(dataLogTable.innerHTML);
+      fs.writeFile(data, csv, (err) => {
+        
+        // In case of a error throw err.
+        if (err) throw err;
+        alert('File Saved Successfully!')
+
+      });
+    });
+    
   });
 }
 
@@ -417,6 +453,8 @@ const loadToast = () => {
 const loadConnDisconn = () => {
   connBtn = document.getElementById('port-submit');
   disconnBtn = document.getElementById('port-disconnect');
+  exportBtn = document.getElementById('export-btn');
+
   disconnBtn.addEventListener('click', (e) => {
     e.preventDefault();
     isConnected = false;
@@ -434,10 +472,12 @@ const loadConnDisconn = () => {
     if (isDataMode) {
       mainBody.style.display = "none";
       dataBody.style.display = "block";
+      exportBtn.style.display = "block";
     }
     else {
       mainBody.style.display = "block";
       dataBody.style.display = "none";
+      exportBtn.style.display = "none";
     }
   } else {
     console.log('inside hide disconnect')
@@ -446,6 +486,7 @@ const loadConnDisconn = () => {
     mainBody.style.display = "none";
     dataBody.style.display = "none";
     navBtnDiv.style.display = "none";
+    exportBtn.style.display = "none";
   }
 }
 
@@ -928,7 +969,7 @@ const readSerialData = (data) => {
     changeTemp(data);
     changePressure(data);
 
-    addRow(data);
+    if(isDataMode) addRow(data);
   }
 
   console.log(data);
@@ -946,69 +987,101 @@ const addRow = (data) => {
   dataTableBody = document.getElementById('data-table-body');
   let scrollDiv = document.getElementById('scroll-div');
   let resString = "";
+  let logString = "";
 
   if (1) {
     //DATE
-    resString += `<td class="stickyCell1">${parsedStr.substring(14, 24)}</td>`
+    resString += `<td class="stickyCell1">${parsedStr.substring(14, 24)}</td>`;
+    logString += `${parsedStr.substring(14, 24)},`;
 
     //TIME
-    resString += `<td class="stickyCell2">${parsedStr.substring(5, 13)}</td>`
+    resString += `<td class="stickyCell2">${parsedStr.substring(5, 13)}</td>`;
+    logString += `${parsedStr.substring(5, 13)},`;
 
     // BLR1/1
     if (parsedStr.substring(164, 165) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+    if (parsedStr.substring(164, 165) == '1') logString += 'ON,';
+    else logString += 'OFF,';
 
     // BLR1/2
     if (0) resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+    if (0) logString += 'ON,';
+    else logString += 'OFF,';
 
     // BLR2/1
     if (parsedStr.substring(166, 167) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+    if (parsedStr.substring(166, 167) == '1') logString += 'ON,';
+    else logString += 'OFF,';
 
     // BLR2/2
     if (0) resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+    if (0) logString += 'ON,';
+    else logString += 'OFF,';
 
     // CONF1/1
     if (parsedStr.substring(168, 169) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+    if (parsedStr.substring(168, 169) == '1') logString += 'ON,';
+    else logString += 'OFF,';
 
     // CONF1/2
     if (parsedStr.substring(170, 171) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+    if (parsedStr.substring(170, 171) == '1') logString += 'ON,';
+    else logString += 'OFF,';
+    
 
     // CONF2/1
     if (parsedStr.substring(172, 173) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+    if (parsedStr.substring(172, 173) == '1') logString += 'ON,';
+    else logString += 'OFF,';
 
     // CONF2/2
     if (parsedStr.substring(174, 175) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+    if (parsedStr.substring(174, 175)  == '1') logString += 'ON,';
+    else logString += 'OFF,';
 
     // COMP1/1
     if (parsedStr.substring(176, 177) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+    if (parsedStr.substring(176, 177) == '1') logString += 'ON,';
+    else logString += 'OFF,';
 
     // COMP1/2
     if (parsedStr.substring(178, 179) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+    if (parsedStr.substring(178, 179) == '1') logString += 'ON,';
+    else logString += 'OFF,';
 
     // COMP2/1
     if (parsedStr.substring(180, 181) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+    if (parsedStr.substring(180, 181)  == '1') logString += 'ON,';
+    else logString += 'OFF,';
 
     // COMP2/2
     if (parsedStr.substring(182, 183) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+    if (parsedStr.substring(182, 183) == '1') logString += 'ON,';
+    else logString += 'OFF,';
 
     // HTR1
     if (parsedStr.substring(160, 161) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+    if (parsedStr.substring(160, 161) == '1') logString += 'ON,';
+    else logString += 'OFF,';
 
     // HTR2
     if (parsedStr.substring(162, 163) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
+    if (parsedStr.substring(162, 163)  == '1') logString += 'ON,';
+    else logString += 'OFF,';
     
   }
   if(1) {
