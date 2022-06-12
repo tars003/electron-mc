@@ -52,6 +52,7 @@ let navBtnDiv;
 let exportBtn;
 let dataLogTable;
 
+// NAV BTNS & CONNECT BTN LOADING & LISTENING
 const listSerialPorts = async () => {
   await SerialPort.list().then((ports, err) => {
     if (err) {
@@ -62,7 +63,7 @@ const listSerialPorts = async () => {
     // POPULATE PORT SELECT OPTIONS
     populatePortSelect(ports);
     // ADD EVENT LISTNER ON SUBMIT AND CONNECT TO SELECTED PORT
-    selectConnectPort();
+    loadConnectExportBtn();
     // LOAD ALERT TOAST HTML
     // loadToast();
 
@@ -74,36 +75,43 @@ const listSerialPorts = async () => {
 
   })
 }
+const loadConnectExportBtn = () => {
+  portForm = document.getElementById("port-form");
+  
+  exportBtn = document.getElementById('export-btn');
 
-const scanLoop = async () => {
-  console.log('Inside scanLoop');
-  if (!isConnected) {
-    listSerialPorts();
-  }
-  // await scanLoop();
-}
-scanLoop();
-// setTimeout(1000, scanLoop);
-
-const updateElementsLoop = async () => {
-  // LOAD DISCONNECT AND CONNECT BUTTON
-  loadConnDisconn();
-}
-
-const populatePortSelect = (ports) => {
-  portSelect = document.getElementById("port-select");
-  console.log(ports);
-  ports.map(port => {
-    if (portsCurr.includes(port.path)) {
-
-    }
-    else {
-      portsCurr.push(port.path);
-      portSelect.innerHTML += `<option value=${port.path}>${port.path}</option>`;
+  portForm.addEventListener('submit', e => {
+    e.preventDefault();
+    // console.log('inside form submit', portSelect.value);
+    if (portSelect.value == 'none') {
+      alert('Please select a PORT')
+    } else {
+      connectPort(portSelect.value);
     }
   });
-}
 
+  // HANDLES ACTUALLY EXPORTING THE DATA
+  exportBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    dataLogTable = document.getElementById('scroll-div');
+    let csv = tableToCsv(dataLogTable.innerHTML);
+
+    ipcRenderer.send('file-request');
+
+    ipcRenderer.on('file-response', (event, data) => {
+      // console.log('obtained file from main process: ' + data );
+      // console.log(dataLogTable.innerHTML);
+      fs.writeFile(data, csv, (err) => {
+        
+        // In case of a error throw err.
+        if (err) throw err;
+        alert('File Saved Successfully!')
+
+      });
+    });
+    
+  });
+}
 const loadNavButtons = () => {
   autoBtn = document.getElementById("auto-btn");
   manualBtn = document.getElementById("manual-btn");
@@ -127,9 +135,51 @@ const loadNavButtons = () => {
 
   autoModeON();
 }
+// NAV BTNS & CONNECT BTN LOADING & LISTENING
 
+// HIDE & SHOW ELEMENTS BASED ON CONNECTION STATUS
+const loadConnDisconn = () => {
+  connBtn = document.getElementById('port-submit');
+  disconnBtn = document.getElementById('port-disconnect');
+  exportBtn = document.getElementById('export-btn');
 
+  disconnBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    isConnected = false;
+    disconnectPort();
+  });
 
+  mainBody = document.getElementById('body-div');
+  dataBody = document.getElementById('data-div');
+  navBtnDiv = document.getElementById('nav-btn-div');
+
+  if (isConnected) {
+    connBtn.style.display = "none";
+    disconnBtn.style.display = "block";
+    navBtnDiv.style.display = "block";
+    if (isDataMode) {
+      mainBody.style.display = "none";
+      dataBody.style.display = "block";
+      exportBtn.style.display = "block";
+    }
+    else {
+      mainBody.style.display = "block";
+      dataBody.style.display = "none";
+      exportBtn.style.display = "none";
+    }
+  } else {
+    console.log('inside hide disconnect')
+    connBtn.style.display = "block";
+    disconnBtn.style.display = "none";
+    mainBody.style.display = "none";
+    dataBody.style.display = "none";
+    navBtnDiv.style.display = "none";
+    exportBtn.style.display = "none";
+  }
+}
+// HIDE & SHOW ELEMENTS BASED ON CONNECTION STATUS
+
+// NAV BTN LISTENERS
 const autoModeON = () => {
 
   mainBody = document.getElementById('body-div');
@@ -190,7 +240,6 @@ const autoModeON = () => {
     blr22Toggle.checked = false;
   }
 }
-
 const manualModeON = () => {
 
   mainBody = document.getElementById('body-div');
@@ -224,7 +273,6 @@ const manualModeON = () => {
 
   if (isConnected) myPort.write("MANU\n");
 }
-
 const dataModeON = () => {
 
   mainBody = document.getElementById('body-div');
@@ -248,96 +296,35 @@ const dataModeON = () => {
   if (isConnected) myPort.write("AUTO\n");
 
 }
+// NAV BTN LISTENERS
 
-const selectConnectPort = () => {
-  portForm = document.getElementById("port-form");
-  
-  exportBtn = document.getElementById('export-btn');
 
-  portForm.addEventListener('submit', e => {
-    e.preventDefault();
-    // console.log('inside form submit', portSelect.value);
-    if (portSelect.value == 'none') {
-      alert('Please select a PORT')
-    } else {
-      connectPort(portSelect.value);
-    }
-  });
 
-  // HANDLES ACTUALLY EXPORTING THE DATA
-  exportBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    dataLogTable = document.getElementById('scroll-div');
-    let csv = tableToCsv(dataLogTable.innerHTML);
-
-    ipcRenderer.send('file-request');
-
-    ipcRenderer.on('file-response', (event, data) => {
-      // console.log('obtained file from main process: ' + data );
-      // console.log(dataLogTable.innerHTML);
-      fs.writeFile(data, csv, (err) => {
-        
-        // In case of a error throw err.
-        if (err) throw err;
-        alert('File Saved Successfully!')
-
-      });
-    });
-    
-  });
-}
-
-const loadToast = () => {
-  alertToast = document.getElementsByClassName('toast');
-  alertToastText = document.getElementsByClassName('toast-body');
-  alertToastText.innerHTML = "Connection successful!";
-
-  var myToast = new bootstrap.Toast(alertToast);
-  myToast.show();
-  // alertToast.toast('show');
-
-}
-
-const loadConnDisconn = () => {
-  connBtn = document.getElementById('port-submit');
-  disconnBtn = document.getElementById('port-disconnect');
-  exportBtn = document.getElementById('export-btn');
-
-  disconnBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    isConnected = false;
-    disconnectPort();
-  });
-
-  mainBody = document.getElementById('body-div');
-  dataBody = document.getElementById('data-div');
-  navBtnDiv = document.getElementById('nav-btn-div');
-
-  if (isConnected) {
-    connBtn.style.display = "none";
-    disconnBtn.style.display = "block";
-    navBtnDiv.style.display = "block";
-    if (isDataMode) {
-      mainBody.style.display = "none";
-      dataBody.style.display = "block";
-      exportBtn.style.display = "block";
-    }
-    else {
-      mainBody.style.display = "block";
-      dataBody.style.display = "none";
-      exportBtn.style.display = "none";
-    }
-  } else {
-    console.log('inside hide disconnect')
-    connBtn.style.display = "block";
-    disconnBtn.style.display = "none";
-    mainBody.style.display = "none";
-    dataBody.style.display = "none";
-    navBtnDiv.style.display = "none";
-    exportBtn.style.display = "none";
+// MAIN LOOP
+const scanLoop = async () => {
+  console.log('Inside scanLoop');
+  if (!isConnected) {
+    listSerialPorts();
   }
 }
+scanLoop();
+// setTimeout(1000, scanLoop);
+// MAIN LOOP
 
+// CONNECT, DISCONNECT AND LIST PORTS
+const populatePortSelect = (ports) => {
+  portSelect = document.getElementById("port-select");
+  console.log(ports);
+  ports.map(port => {
+    if (portsCurr.includes(port.path)) {
+
+    }
+    else {
+      portsCurr.push(port.path);
+      portSelect.innerHTML += `<option value=${port.path}>${port.path}</option>`;
+    }
+  });
+}
 const connectPort = (portName) => {
   console.log('Inside connectPort -> ', portName);
   myPort = new SerialPort({
@@ -373,20 +360,17 @@ const connectPort = (portName) => {
 
   portSelect.disabled = true;
 
-  loopTimer = setTimeout(updateElementsLoop, 500);
-
-  // loadToggleListeners();
+  loopTimer = setInterval(loadConnDisconn, 500);
 }
-
 const disconnectPort = () => {
   myPort.close();
-  updateElementsLoop();
+  loadConnDisconn();
   clearTimeout(loopTimer);
   portSelect.disabled = false;
   autoModeON();
   mainBody.style.display = "none";
-  // resetOutputValues();
 }
+// CONNECT, DISCONNECT AND LIST PORTS
 
 
 // TABLE VALUE LISTENERS
@@ -957,18 +941,14 @@ const loadToggleListeners = () => {
 // LOAD TOGGLE LISTENERS FOR MANUAL MODE
 
 
-const resetOutputValues = () => {
-  location.reload();
-}
-
-function showPortOpen() {
+// SERIAL PORT LISTENER FUNCTIONS
+const showPortOpen = () => {
   console.log('port open. Data rate: ' + myPort.baudRate);
 
   // myPort.on("data", function(data) {
   //   console.log("data received: " + data);
   // });
 }
-
 const readSerialData = (data) => {
   parsedStr = data;
   if (data.substring(0, 1) == '<') {
@@ -983,15 +963,15 @@ const readSerialData = (data) => {
 
   console.log(data);
 }
-
-function showPortClose() {
+const showPortClose = () => {
   console.log('port closed.');
 }
-
-function showError(error) {
+const showError = (error) => {
   console.log('Serial port error: ' + error);
 }
+// SERIAL PORT LISTENER FUNCTIONS
 
+// ADD ROW TO DATA TABLE
 const addRow = (data) => {
   dataTableBody = document.getElementById('data-table-body');
   let scrollDiv = document.getElementById('scroll-div');
@@ -1204,6 +1184,7 @@ const addRow = (data) => {
 
   scrollDiv.scrollTop = scrollDiv.scrollHeight;
 }
+// ADD ROW TO DATA TABLE
 
 
 
