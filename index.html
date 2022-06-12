@@ -66,13 +66,26 @@
                                     <option value="none" selected>Select port</option>
                                 </select>
                             </div>
-                            <div class="col-3">
+                            <div class="col-2">
                                 <input id="port-submit" class="btn btn-primary" type="submit" value="Connect">
                                 <button id="port-disconnect" class="btn btn-primary">Disconnect</button>
                             </div>
-                            <div class="col-3"> 
-                                <i class=" fa fa-solid fa-file-csv"></i>
+                            <div class="col-2"> 
                                 <button id="export-btn" class="btn btn-primary"> Export data</button>
+                            </div>
+                            <div class="col-5"> 
+                                <div class="container" style="margin-left: -5px;">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td >Date</td>
+                                                <td id="time-header" style="background-color: #1f68bb; color: white;    text-align: center;"></td>
+                                                <td >Time</td>
+                                                <td id="date-header" style="background-color: #1f68bb; color: white;    text-align: center;"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -433,6 +446,16 @@
                         <div class="col-6">
                             <!-- pressure value table -->
                             <div class="container" id="pressure-table" style="margin-top: 2px;">
+                                <table hidden class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 75px;">Fault1</td>
+                                            <td id="fault1" style="background-color: #c94f55; color: white;text-align: center; width: 125px;"></td>
+                                            <td style="width: 75px;">Fault2</td>
+                                            <td id="fault2" style="background-color: #c94f55; color: white;text-align: center;width: 160px;"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                                 <table class="table">
                                     <thead>
                                         <tr>

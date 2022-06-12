@@ -21,6 +21,7 @@ let blr12Led, blr22Led;
 let spare1Led, spare2Led, spare3Led, spare4Led, contFaultLed;
 let blr1Ip, conf11Ip, conf12Ip, lp11Ip, lp12Ip, hp11Ip, hp12Ip, htr1Ip, airConIp, cnp1Ip;
 let blr2Ip, conf21Ip, conf22Ip, lp21Ip, lp22Ip, hp21Ip, hp22Ip, htr2Ip, v400Ip, cnp2Ip;
+let timeHeader, dateHeader, fault1, fault2;
 let rt1Val, rt2Val, st1Val, st2Val, at1Val, at2Val, rhVal;
 let hp11Val, hp12Val, lp11Val, lp12Val, hp21Val, hp22Val, lp21Val, lp22Val;
 
@@ -127,160 +128,7 @@ const loadNavButtons = () => {
   autoModeON();
 }
 
-const loadToggleListeners = () => {
-  blr1Toggle = document.getElementById('blr1-toggle');
-  htr1Toggle = document.getElementById('htr1-toggle');
-  conf11Toggle = document.getElementById('conf11-toggle');
-  conf12Toggle = document.getElementById('conf12-toggle');
-  comp11Toggle = document.getElementById('comp11-toggle');
-  comp12Toggle = document.getElementById('comp12-toggle');
 
-  blr2Toggle = document.getElementById('blr2-toggle');
-  htr2Toggle = document.getElementById('htr2-toggle');
-  conf21Toggle = document.getElementById('conf21-toggle');
-  conf22Toggle = document.getElementById('conf22-toggle');
-  comp21Toggle = document.getElementById('comp21-toggle');
-  comp22Toggle = document.getElementById('comp22-toggle');
-
-  spare1Toggle = document.getElementById('spare1-toggle');
-  spare2Toggle = document.getElementById('spare2-toggle');
-  spare3Toggle = document.getElementById('spare3-toggle');
-  spare4Toggle = document.getElementById('spare4-toggle');
-  contFaultToggle = document.getElementById('contFault-toggle');
-
-  blr12Toggle = document.getElementById('blr12-toggle');
-  blr22Toggle = document.getElementById('blr22-toggle');
-
-  // UNIT 1
-  blr1Toggle.addEventListener('change', (e) => {
-    // console.log('inside change', e.target.checked);
-    if (isConnected) {
-      if (e.target.checked) myPort.write("<MNOP,5,1>");
-      else myPort.write("<MNOP,5,0>");
-    }
-  });
-  htr1Toggle.addEventListener('change', (e) => {
-    // console.log('inside change', e.target.checked);
-    if (isConnected) {
-      if (e.target.checked) myPort.write("<MNOP,6,1>");
-      else myPort.write("<MNOP,6,0>");
-    }
-  });
-  conf11Toggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      if (e.target.checked) myPort.write("<MNOP,1,1>");
-      else myPort.write("<MNOP,1,0>");
-    }
-  });
-  conf12Toggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      if (e.target.checked) myPort.write("<MNOP,2,1>");
-      else myPort.write("<MNOP,2,0>");
-    }
-  });
-  comp11Toggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      if (e.target.checked) myPort.write("<MNOP,3,1>");
-      else myPort.write("<MNOP,3,0>");
-    }
-  });
-  comp12Toggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      if (e.target.checked) myPort.write("<MNOP,4,1>");
-      else myPort.write("<MNOP,4,0>");
-    }
-  });
-
-  // UNIT 2
-  blr2Toggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      if (e.target.checked) myPort.write("<MNOP,11,1>");
-      else myPort.write("<MNOP,11,0>");
-    }
-  });
-  htr2Toggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      if (e.target.checked) myPort.write("<MNOP,12,1>");
-      else myPort.write("<MNOP,12,0>");
-    }
-  });
-  conf21Toggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      if (e.target.checked) myPort.write("<MNOP,7,1>");
-      else myPort.write("<MNOP,7,0>");
-    }
-  });
-  conf22Toggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      if (e.target.checked) myPort.write("<MNOP,8,1>");
-      else myPort.write("<MNOP,8,0>");
-    }
-  });
-  comp21Toggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      if (e.target.checked) myPort.write("<MNOP,9,1>");
-      else myPort.write("<MNOP,9,0>");
-    }
-  });
-  comp22Toggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      // console.log("<MNOP,10,1>");
-      if (e.target.checked) myPort.write("<MNOP,10,1>");
-      else myPort.write("<MNOP,10,0>");
-    }
-  });
-  // SPARE TOGGLES
-  spare1Toggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      // console.log("<MNOP,10,1>");
-      if (e.target.checked) myPort.write("<MNOP,13,1>");
-      else myPort.write("<MNOP,13,0>");
-    }
-  });
-  spare2Toggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      // console.log("<MNOP,10,1>");
-      if (e.target.checked) myPort.write("<MNOP,14,1>");
-      else myPort.write("<MNOP,14,0>");
-    }
-  });
-  spare3Toggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      // console.log("<MNOP,10,1>");
-      if (e.target.checked) myPort.write("<MNOP,15,1>");
-      else myPort.write("<MNOP,15,0>");
-    }
-  });
-  spare4Toggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      // console.log("<MNOP,10,1>");
-      if (e.target.checked) myPort.write("<MNOP,16,1>");
-      else myPort.write("<MNOP,16,0>");
-    }
-  });
-  contFaultToggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      // console.log("<MNOP,10,1>");
-      if (e.target.checked) myPort.write("<MNOP,17,1>");
-      else myPort.write("<MNOP,17,0>");
-    }
-  });
-
-  blr12Toggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      // console.log("<MNOP,10,1>");
-      if (e.target.checked) myPort.write("<MNOP,18,1>");
-      else myPort.write("<MNOP,18,0>");
-    }
-  });
-  blr22Toggle.addEventListener('change', (e) => {
-    if (isConnected) {
-      // console.log("<MNOP,10,1>");
-      if (e.target.checked) myPort.write("<MNOP,19,1>");
-      else myPort.write("<MNOP,19,0>");
-    }
-  });
-}
 
 const autoModeON = () => {
 
@@ -541,7 +389,7 @@ const disconnectPort = () => {
 }
 
 
-
+// TABLE VALUE LISTENERS
 const changeOutput = (data) => {
   // UNIT 1
   if (parsedStr.substring(164, 165) == '1') {
@@ -694,7 +542,6 @@ const changeOutput = (data) => {
   }
 
 }
-
 const getOutputElements = () => {
   blr1Led = document.getElementById('blr1-led');
   conf11Led = document.getElementById('conf11-led');
@@ -719,7 +566,6 @@ const getOutputElements = () => {
   blr12Led = document.getElementById('blr12-led');
   blr22Led = document.getElementById('blr22-led');
 }
-
 const changeInput = (data) => {
   // UNIT 1
   if (parsedStr.substring(128, 129) == '1') {
@@ -877,8 +723,12 @@ const changeInput = (data) => {
     cnp2Ip.style = "background-color: rgb(228, 58, 58); color: white;";
     cnp2Ip.innerHTML = "OFF";
   }
-}
 
+  timeHeader.innerHTML = parsedStr.substring(14, 24);
+  dateHeader.innerHTML = parsedStr.substring(5, 13);
+  fault1.innerHTML = parsedStr.substring(184, 198);
+  fault2.innerHTML = parsedStr.substring(199, 212);
+}
 const getInputElements = () => {
   blr1Ip = document.getElementById('blr1-ip');
   conf11Ip = document.getElementById('conf11-ip');
@@ -901,8 +751,12 @@ const getInputElements = () => {
   htr2Ip = document.getElementById('htr2-ip');
   cnp2Ip = document.getElementById('cnp2-ip');
   v400Ip = document.getElementById('400v-ip');
-}
 
+  timeHeader = document.getElementById('time-header');
+  dateHeader = document.getElementById('date-header');
+  fault1 = document.getElementById('fault1');
+  fault2 = document.getElementById('fault2');
+}
 const changeTemp = (data) => {
   rt1Val.innerHTML = data.substring(25, 29);
   rt2Val.innerHTML = data.substring(30, 34);
@@ -912,7 +766,6 @@ const changeTemp = (data) => {
   st2Val.innerHTML = data.substring(50, 54);
   rhVal.innerHTML = data.substring(55, 59);
 }
-
 const getTempElements = () => {
   rt1Val = document.getElementById('rt1Temp');
   rt2Val = document.getElementById('rt2Temp');
@@ -922,7 +775,6 @@ const getTempElements = () => {
   st2Val = document.getElementById('st2Temp');
   rhVal = document.getElementById('rh-value');
 }
-
 const changePressure = (data) => {
   hp11Val.innerHTML = data.substring(55, 59);
   hp12Val.innerHTML = data.substring(60, 64);
@@ -934,7 +786,6 @@ const changePressure = (data) => {
   lp21Val.innerHTML = data.substring(85, 89);
   lp22Val.innerHTML = data.substring(90, 94);
 }
-
 const getPressureElements = () => {
   hp11Val = document.getElementById('hp11-value');
   hp12Val = document.getElementById('hp12-value');
@@ -946,6 +797,164 @@ const getPressureElements = () => {
   lp21Val = document.getElementById('lp21-value');
   lp22Val = document.getElementById('lp22-value');
 }
+// TABLE VALUE LISTENERS
+
+// LOAD TOGGLE LISTENERS FOR MANUAL MODE
+const loadToggleListeners = () => {
+  blr1Toggle = document.getElementById('blr1-toggle');
+  htr1Toggle = document.getElementById('htr1-toggle');
+  conf11Toggle = document.getElementById('conf11-toggle');
+  conf12Toggle = document.getElementById('conf12-toggle');
+  comp11Toggle = document.getElementById('comp11-toggle');
+  comp12Toggle = document.getElementById('comp12-toggle');
+
+  blr2Toggle = document.getElementById('blr2-toggle');
+  htr2Toggle = document.getElementById('htr2-toggle');
+  conf21Toggle = document.getElementById('conf21-toggle');
+  conf22Toggle = document.getElementById('conf22-toggle');
+  comp21Toggle = document.getElementById('comp21-toggle');
+  comp22Toggle = document.getElementById('comp22-toggle');
+
+  spare1Toggle = document.getElementById('spare1-toggle');
+  spare2Toggle = document.getElementById('spare2-toggle');
+  spare3Toggle = document.getElementById('spare3-toggle');
+  spare4Toggle = document.getElementById('spare4-toggle');
+  contFaultToggle = document.getElementById('contFault-toggle');
+
+  blr12Toggle = document.getElementById('blr12-toggle');
+  blr22Toggle = document.getElementById('blr22-toggle');
+
+  // UNIT 1
+  blr1Toggle.addEventListener('change', (e) => {
+    // console.log('inside change', e.target.checked);
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,5,1>");
+      else myPort.write("<MNOP,5,0>");
+    }
+  });
+  htr1Toggle.addEventListener('change', (e) => {
+    // console.log('inside change', e.target.checked);
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,6,1>");
+      else myPort.write("<MNOP,6,0>");
+    }
+  });
+  conf11Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,1,1>");
+      else myPort.write("<MNOP,1,0>");
+    }
+  });
+  conf12Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,2,1>");
+      else myPort.write("<MNOP,2,0>");
+    }
+  });
+  comp11Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,3,1>");
+      else myPort.write("<MNOP,3,0>");
+    }
+  });
+  comp12Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,4,1>");
+      else myPort.write("<MNOP,4,0>");
+    }
+  });
+
+  // UNIT 2
+  blr2Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,11,1>");
+      else myPort.write("<MNOP,11,0>");
+    }
+  });
+  htr2Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,12,1>");
+      else myPort.write("<MNOP,12,0>");
+    }
+  });
+  conf21Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,7,1>");
+      else myPort.write("<MNOP,7,0>");
+    }
+  });
+  conf22Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,8,1>");
+      else myPort.write("<MNOP,8,0>");
+    }
+  });
+  comp21Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      if (e.target.checked) myPort.write("<MNOP,9,1>");
+      else myPort.write("<MNOP,9,0>");
+    }
+  });
+  comp22Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      // console.log("<MNOP,10,1>");
+      if (e.target.checked) myPort.write("<MNOP,10,1>");
+      else myPort.write("<MNOP,10,0>");
+    }
+  });
+  // SPARE TOGGLES
+  spare1Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      // console.log("<MNOP,10,1>");
+      if (e.target.checked) myPort.write("<MNOP,13,1>");
+      else myPort.write("<MNOP,13,0>");
+    }
+  });
+  spare2Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      // console.log("<MNOP,10,1>");
+      if (e.target.checked) myPort.write("<MNOP,14,1>");
+      else myPort.write("<MNOP,14,0>");
+    }
+  });
+  spare3Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      // console.log("<MNOP,10,1>");
+      if (e.target.checked) myPort.write("<MNOP,15,1>");
+      else myPort.write("<MNOP,15,0>");
+    }
+  });
+  spare4Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      // console.log("<MNOP,10,1>");
+      if (e.target.checked) myPort.write("<MNOP,16,1>");
+      else myPort.write("<MNOP,16,0>");
+    }
+  });
+  contFaultToggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      // console.log("<MNOP,10,1>");
+      if (e.target.checked) myPort.write("<MNOP,17,1>");
+      else myPort.write("<MNOP,17,0>");
+    }
+  });
+
+  blr12Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      // console.log("<MNOP,10,1>");
+      if (e.target.checked) myPort.write("<MNOP,18,1>");
+      else myPort.write("<MNOP,18,0>");
+    }
+  });
+  blr22Toggle.addEventListener('change', (e) => {
+    if (isConnected) {
+      // console.log("<MNOP,10,1>");
+      if (e.target.checked) myPort.write("<MNOP,19,1>");
+      else myPort.write("<MNOP,19,0>");
+    }
+  });
+}
+// LOAD TOGGLE LISTENERS FOR MANUAL MODE
 
 
 const resetOutputValues = () => {
