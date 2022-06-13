@@ -377,7 +377,7 @@ const disconnectPort = () => {
 const changeOutput = (data) => {
   // UNIT 1
   if (parsedStr.substring(164, 165) == '1') {
-    blr1Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    blr1Led.style = "background-color: #6ad86a; color: white;";
     blr1Led.innerHTML = "ON";
   } else {
     blr1Led.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -385,7 +385,7 @@ const changeOutput = (data) => {
   }
 
   if (parsedStr.substring(168, 169) == '1') {
-    conf11Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    conf11Led.style = "background-color: #6ad86a; color: white;";
     conf11Led.innerHTML = "ON";
   } else {
     conf11Led.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -393,7 +393,7 @@ const changeOutput = (data) => {
   }
 
   if (parsedStr.substring(170, 171) == '1') {
-    conf12Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    conf12Led.style = "background-color: #6ad86a; color: white;";
     conf12Led.innerHTML = "ON";
   } else {
     conf12Led.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -401,7 +401,7 @@ const changeOutput = (data) => {
   }
 
   if (parsedStr.substring(176, 177) == '1') {
-    comp11Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    comp11Led.style = "background-color: #6ad86a; color: white;";
     comp11Led.innerHTML = "ON";
   } else {
     comp11Led.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -409,7 +409,7 @@ const changeOutput = (data) => {
   }
 
   if (parsedStr.substring(178, 179) == '1') {
-    comp12Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    comp12Led.style = "background-color: #6ad86a; color: white;";
     comp12Led.innerHTML = "ON";
   } else {
     comp12Led.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -417,7 +417,7 @@ const changeOutput = (data) => {
   }
 
   if (parsedStr.substring(160, 161) == '1') {
-    htr1Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    htr1Led.style = "background-color: #6ad86a; color: white;";
     htr1Led.innerHTML = "ON";
   } else {
     htr1Led.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -425,7 +425,7 @@ const changeOutput = (data) => {
   }
   // UNIT 2
   if (parsedStr.substring(166, 167) == '1') {
-    blr2Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    blr2Led.style = "background-color: #6ad86a; color: white;";
     blr2Led.innerHTML = "ON";
   } else {
     blr2Led.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -433,7 +433,7 @@ const changeOutput = (data) => {
   }
 
   if (parsedStr.substring(172, 173) == '1') {
-    conf21Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    conf21Led.style = "background-color: #6ad86a; color: white;";
     conf21Led.innerHTML = "ON";
   } else {
     conf21Led.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -441,7 +441,7 @@ const changeOutput = (data) => {
   }
 
   if (parsedStr.substring(174, 175) == '1') {
-    conf22Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    conf22Led.style = "background-color: #6ad86a; color: white;";
     conf22Led.innerHTML = "ON";
   } else {
     conf22Led.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -449,7 +449,7 @@ const changeOutput = (data) => {
   }
 
   if (parsedStr.substring(180, 181) == '1') {
-    comp21Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    comp21Led.style = "background-color: #6ad86a; color: white;";
     comp21Led.innerHTML = "ON";
   } else {
     comp21Led.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -457,7 +457,7 @@ const changeOutput = (data) => {
   }
 
   if (parsedStr.substring(182, 183) == '1') {
-    comp22Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    comp22Led.style = "background-color: #6ad86a; color: white;";
     comp22Led.innerHTML = "ON";
   } else {
     comp22Led.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -465,7 +465,7 @@ const changeOutput = (data) => {
   }
 
   if (parsedStr.substring(162, 163) == '1') {
-    htr2Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    htr2Led.style = "background-color: #6ad86a; color: white;";
     htr2Led.innerHTML = "ON";
   } else {
     htr2Led.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -473,28 +473,28 @@ const changeOutput = (data) => {
   }
   // SPARES
   if (spare1Toggle.checked && !isModeAuto) {
-    spare1Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    spare1Led.style = "background-color: #6ad86a; color: white;";
     spare1Led.innerHTML = "ON";
   } else {
     spare1Led.style = "background-color: rgb(228, 58, 58); color: white;";
     spare1Led.innerHTML = "OFF";
   }
   if (spare2Toggle.checked && !isModeAuto) {
-    spare2Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    spare2Led.style = "background-color: #6ad86a; color: white;";
     spare2Led.innerHTML = "ON";
   } else {
     spare2Led.style = "background-color: rgb(228, 58, 58); color: white;";
     spare2Led.innerHTML = "OFF";
   }
   if (spare3Toggle.checked && !isModeAuto) {
-    spare3Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    spare3Led.style = "background-color: #6ad86a; color: white;";
     spare3Led.innerHTML = "ON";
   } else {
     spare3Led.style = "background-color: rgb(228, 58, 58); color: white;";
     spare3Led.innerHTML = "OFF";
   }
   if (spare4Toggle.checked && !isModeAuto) {
-    spare4Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    spare4Led.style = "background-color: #6ad86a; color: white;";
     spare4Led.innerHTML = "ON";
   } else {
     spare4Led.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -502,7 +502,7 @@ const changeOutput = (data) => {
   }
 
   if (contFaultToggle.checked && !isModeAuto) {
-    contFaultLed.style = "background-color: rgb(88, 206, 88); color: white;";
+    contFaultLed.style = "background-color: #6ad86a; color: white;";
     contFaultLed.innerHTML = "ON";
   } else {
     contFaultLed.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -510,7 +510,7 @@ const changeOutput = (data) => {
   }
 
   if (blr12Toggle.checked && !isModeAuto) {
-    blr12Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    blr12Led.style = "background-color: #6ad86a; color: white;";
     blr12Led.innerHTML = "ON";
   } else {
     blr12Led.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -518,7 +518,7 @@ const changeOutput = (data) => {
   }
 
   if (blr22Toggle.checked && !isModeAuto) {
-    blr22Led.style = "background-color: rgb(88, 206, 88); color: white;";
+    blr22Led.style = "background-color: #6ad86a; color: white;";
     blr22Led.innerHTML = "ON";
   } else {
     blr22Led.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -553,7 +553,7 @@ const getOutputElements = () => {
 const changeInput = (data) => {
   // UNIT 1
   if (parsedStr.substring(128, 129) == '1') {
-    blr1Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    blr1Ip.style = "background-color: #6ad86a; color: white;";
     blr1Ip.innerHTML = "OK";
   } else {
     blr1Ip.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -561,7 +561,7 @@ const changeInput = (data) => {
   }
 
   if (parsedStr.substring(116, 117) == '1') {
-    conf11Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    conf11Ip.style = "background-color: #6ad86a; color: white;";
     conf11Ip.innerHTML = "OK";
   } else {
     conf11Ip.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -569,7 +569,7 @@ const changeInput = (data) => {
   }
 
   if (parsedStr.substring(118, 119) == '1') {
-    conf12Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    conf12Ip.style = "background-color: #6ad86a; color: white;";
     conf12Ip.innerHTML = "OK";
   } else {
     conf12Ip.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -577,7 +577,7 @@ const changeInput = (data) => {
   }
 
   if (parsedStr.substring(108, 109) == '1') {
-    lp11Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    lp11Ip.style = "background-color: #6ad86a; color: white;";
     lp11Ip.innerHTML = "OK";
   } else {
     lp11Ip.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -585,7 +585,7 @@ const changeInput = (data) => {
   }
 
   if (parsedStr.substring(110, 111) == '1') {
-    lp12Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    lp12Ip.style = "background-color: #6ad86a; color: white;";
     lp12Ip.innerHTML = "OK";
   } else {
     lp12Ip.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -593,7 +593,7 @@ const changeInput = (data) => {
   }
 
   if (parsedStr.substring(100, 101) == '1') {
-    hp11Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    hp11Ip.style = "background-color: #6ad86a; color: white;";
     hp11Ip.innerHTML = "OK";
   } else {
     hp11Ip.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -601,7 +601,7 @@ const changeInput = (data) => {
   }
 
   if (parsedStr.substring(102, 103) == '1') {
-    hp12Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    hp12Ip.style = "background-color: #6ad86a; color: white;";
     hp12Ip.innerHTML = "OK";
   } else {
     hp12Ip.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -609,21 +609,21 @@ const changeInput = (data) => {
   }
 
   if (parsedStr.substring(124, 125) == '1') {
-    htr1Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    htr1Ip.style = "background-color: #6ad86a; color: white;";
     htr1Ip.innerHTML = "OK";
   } else {
     htr1Ip.style = "background-color: rgb(228, 58, 58); color: white;";
     htr1Ip.innerHTML = "NOT OK";
   }
   if (parsedStr.substring(1, 4) == 'NOR') {
-    airConIp.style = "background-color: rgb(88, 206, 88); color: white;";
+    airConIp.style = "background-color: #6ad86a; color: white;";
     airConIp.innerHTML = "ON";
   } else {
     airConIp.style = "background-color: rgb(228, 58, 58); color: white;";
     airConIp.innerHTML = "OFF";
   }
   if (parsedStr.substring(148, 149) == '1') {
-    cnp1Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    cnp1Ip.style = "background-color: #6ad86a; color: white;";
     cnp1Ip.innerHTML = "ON";
   } else {
     cnp1Ip.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -631,7 +631,7 @@ const changeInput = (data) => {
   }
   // UNIT 2
   if (parsedStr.substring(130, 131) == '1') {
-    blr2Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    blr2Ip.style = "background-color: #6ad86a; color: white;";
     blr2Ip.innerHTML = "OK";
   } else {
     blr2Ip.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -639,7 +639,7 @@ const changeInput = (data) => {
   }
 
   if (parsedStr.substring(120, 121) == '1') {
-    conf21Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    conf21Ip.style = "background-color: #6ad86a; color: white;";
     conf21Ip.innerHTML = "OK";
   } else {
     conf21Ip.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -647,7 +647,7 @@ const changeInput = (data) => {
   }
 
   if (parsedStr.substring(122, 123) == '1') {
-    conf22Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    conf22Ip.style = "background-color: #6ad86a; color: white;";
     conf22Ip.innerHTML = "OK";
   } else {
     conf22Ip.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -655,7 +655,7 @@ const changeInput = (data) => {
   }
 
   if (parsedStr.substring(112, 113) == '1') {
-    lp21Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    lp21Ip.style = "background-color: #6ad86a; color: white;";
     lp21Ip.innerHTML = "OK";
   } else {
     lp21Ip.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -663,7 +663,7 @@ const changeInput = (data) => {
   }
 
   if (parsedStr.substring(114, 115) == '1') {
-    lp22Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    lp22Ip.style = "background-color: #6ad86a; color: white;";
     lp22Ip.innerHTML = "OK";
   } else {
     lp22Ip.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -671,7 +671,7 @@ const changeInput = (data) => {
   }
 
   if (parsedStr.substring(104, 105) == '1') {
-    hp21Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    hp21Ip.style = "background-color: #6ad86a; color: white;";
     hp21Ip.innerHTML = "OK";
   } else {
     hp21Ip.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -679,7 +679,7 @@ const changeInput = (data) => {
   }
 
   if (parsedStr.substring(106, 107) == '1') {
-    hp22Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    hp22Ip.style = "background-color: #6ad86a; color: white;";
     hp22Ip.innerHTML = "OK";
   } else {
     hp22Ip.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -687,21 +687,21 @@ const changeInput = (data) => {
   }
 
   if (parsedStr.substring(126, 127) == '1') {
-    htr2Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    htr2Ip.style = "background-color: #6ad86a; color: white;";
     htr2Ip.innerHTML = "OK";
   } else {
     htr2Ip.style = "background-color: rgb(228, 58, 58); color: white;";
     htr2Ip.innerHTML = "NOT OK";
   }
   if (parsedStr.substring(132, 133) == '1') {
-    v400Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    v400Ip.style = "background-color: #6ad86a; color: white;";
     v400Ip.innerHTML = "OK";
   } else {
     v400Ip.style = "background-color: rgb(228, 58, 58); color: white;";
     v400Ip.innerHTML = "NOT OK";
   }
   if (parsedStr.substring(150, 151) == '1') {
-    cnp2Ip.style = "background-color: rgb(88, 206, 88); color: white;";
+    cnp2Ip.style = "background-color: #6ad86a; color: white;";
     cnp2Ip.innerHTML = "ON";
   } else {
     cnp2Ip.style = "background-color: rgb(228, 58, 58); color: white;";
@@ -988,86 +988,86 @@ const addRow = (data) => {
     logString += `${parsedStr.substring(5, 13)},`;
 
     // BLR1/1
-    if (parsedStr.substring(164, 165) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    if (parsedStr.substring(164, 165) == '1') resString += '<td style="background-color: #6ad86a; color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
     if (parsedStr.substring(164, 165) == '1') logString += 'ON,';
     else logString += 'OFF,';
 
     // BLR1/2
-    if (0) resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    if (0) resString += '<td style="background-color: #6ad86a; color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
     if (0) logString += 'ON,';
     else logString += 'OFF,';
 
     // BLR2/1
-    if (parsedStr.substring(166, 167) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    if (parsedStr.substring(166, 167) == '1') resString += '<td style="background-color: #6ad86a; color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
     if (parsedStr.substring(166, 167) == '1') logString += 'ON,';
     else logString += 'OFF,';
 
     // BLR2/2
-    if (0) resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    if (0) resString += '<td style="background-color: #6ad86a; color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
     if (0) logString += 'ON,';
     else logString += 'OFF,';
 
     // CONF1/1
-    if (parsedStr.substring(168, 169) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    if (parsedStr.substring(168, 169) == '1') resString += '<td style="background-color: #6ad86a; color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
     if (parsedStr.substring(168, 169) == '1') logString += 'ON,';
     else logString += 'OFF,';
 
     // CONF1/2
-    if (parsedStr.substring(170, 171) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    if (parsedStr.substring(170, 171) == '1') resString += '<td style="background-color: #6ad86a; color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
     if (parsedStr.substring(170, 171) == '1') logString += 'ON,';
     else logString += 'OFF,';
     
 
     // CONF2/1
-    if (parsedStr.substring(172, 173) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    if (parsedStr.substring(172, 173) == '1') resString += '<td style="background-color: #6ad86a; color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
     if (parsedStr.substring(172, 173) == '1') logString += 'ON,';
     else logString += 'OFF,';
 
     // CONF2/2
-    if (parsedStr.substring(174, 175) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    if (parsedStr.substring(174, 175) == '1') resString += '<td style="background-color: #6ad86a; color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
     if (parsedStr.substring(174, 175)  == '1') logString += 'ON,';
     else logString += 'OFF,';
 
     // COMP1/1
-    if (parsedStr.substring(176, 177) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    if (parsedStr.substring(176, 177) == '1') resString += '<td style="background-color: #6ad86a; color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
     if (parsedStr.substring(176, 177) == '1') logString += 'ON,';
     else logString += 'OFF,';
 
     // COMP1/2
-    if (parsedStr.substring(178, 179) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    if (parsedStr.substring(178, 179) == '1') resString += '<td style="background-color: #6ad86a; color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
     if (parsedStr.substring(178, 179) == '1') logString += 'ON,';
     else logString += 'OFF,';
 
     // COMP2/1
-    if (parsedStr.substring(180, 181) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    if (parsedStr.substring(180, 181) == '1') resString += '<td style="background-color: #6ad86a; color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
     if (parsedStr.substring(180, 181)  == '1') logString += 'ON,';
     else logString += 'OFF,';
 
     // COMP2/2
-    if (parsedStr.substring(182, 183) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    if (parsedStr.substring(182, 183) == '1') resString += '<td style="background-color: #6ad86a; color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
     if (parsedStr.substring(182, 183) == '1') logString += 'ON,';
     else logString += 'OFF,';
 
     // HTR1
-    if (parsedStr.substring(160, 161) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    if (parsedStr.substring(160, 161) == '1') resString += '<td style="background-color: #6ad86a; color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
     if (parsedStr.substring(160, 161) == '1') logString += 'ON,';
     else logString += 'OFF,';
 
     // HTR2
-    if (parsedStr.substring(162, 163) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">ON</td>';
+    if (parsedStr.substring(162, 163) == '1') resString += '<td style="background-color: #6ad86a; color: white;">ON</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">OFF</td>';
     if (parsedStr.substring(162, 163)  == '1') logString += 'ON,';
     else logString += 'OFF,';
@@ -1109,75 +1109,75 @@ const addRow = (data) => {
   }
   if(1) {
     // BLR1/1
-    if (parsedStr.substring(128, 129) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (parsedStr.substring(128, 129) == '1') resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // BLR1/2
-    if (0) resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (0) resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // BLR2/1
-    if (parsedStr.substring(130, 131) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (parsedStr.substring(130, 131) == '1') resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // BLR2/2
-    if (0) resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (0) resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // COKF1/1
-    if (parsedStr.substring(116, 117) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (parsedStr.substring(116, 117) == '1') resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // COKF1/2
-    if (parsedStr.substring(118, 119) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (parsedStr.substring(118, 119) == '1') resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // COKF2/1
-    if (parsedStr.substring(120, 121) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (parsedStr.substring(120, 121) == '1') resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // COKF2/2
-    if (parsedStr.substring(122, 123) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (parsedStr.substring(122, 123) == '1') resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // HP1/1
-    if (parsedStr.substring(100, 101) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (parsedStr.substring(100, 101) == '1') resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // HP1/2
-    if (parsedStr.substring(102, 103) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (parsedStr.substring(102, 103) == '1') resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // HP2/1
-    if (parsedStr.substring(104, 105) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (parsedStr.substring(104, 105) == '1') resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // HP2/2
-    if (parsedStr.substring(106, 107) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (parsedStr.substring(106, 107) == '1') resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // LP1/1
-    if (parsedStr.substring(108, 109) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (parsedStr.substring(108, 109) == '1') resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // LP1/2
-    if (parsedStr.substring(110, 111) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (parsedStr.substring(110, 111) == '1') resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // LP2/1
-    if (parsedStr.substring(112, 113) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (parsedStr.substring(112, 113) == '1') resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // LP2/2
-    if (parsedStr.substring(114, 115) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (parsedStr.substring(114, 115) == '1') resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // HTR1
-    if (parsedStr.substring(124, 125) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (parsedStr.substring(124, 125) == '1') resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
 
     // HTR2
-    if (parsedStr.substring(126, 127) == '1') resString += '<td style="background-color: rgb(88, 206, 88); color: white;">OK</td>';
+    if (parsedStr.substring(126, 127) == '1') resString += '<td style="background-color: #6ad86a; color: white;">OK</td>';
     else resString += '<td style="background-color: rgb(228, 58, 58); color: white;">N_OK</td>';
   }
   dataTableBody.innerHTML += `<tr>${resString}</tr>`;
